@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stabilising ball</title>
+  <script type="text/javascript" src="dat.gui.min.js"></script>
+  <script type="text/javascript" src="controller.js"></script>
+  <script type="text/javascript" src="parametricEquation.js"></script>
+  <script type="text/javascript" src="sketch.js"></script>
+  <script type="text/javascript" src="vector.js"></script>
+  <script type="text/javascript" src="block.js"></script>
+  <script type="text/javascript" src="ball.js"></script>
+
+
+
+</head>
+
+<body>
+  <h1>Self Stabilising Ball </h1>
+  <canvas id="canvas"></canvas>
+
+  <div class="info">
+    <p>
+      This ball is being balanced by a <a href="https://en.wikipedia.org/wiki/PID_controller">PID controller</a>.
+      You can change the values of <span id="constants">K, D, I</span> in the gui aswell as changing the setpoint.
+    </p>
+    <p>
+      You can also balance the ball yourself by clicking the platform.
+      The ball can also be dragged around.
+    </p>
+  </div>
+</body>
+
+<link rel="stylesheet" href="styles.css">
+
+</html>
