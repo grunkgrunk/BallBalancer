@@ -1,79 +1,71 @@
-function createVector(x, y) {
-  let v = {
-    x: x || 0,
-    y: y || 0
-  }
-
-  v.add = function(u) {
-    return createVector(v.x + u.x, v.y + u.y)
-  }
-
-  v.sub = function(u) {
-    return createVector(v.x - u.x, u.y - v.y)
-  }
-
-  v.mult = function(k) {
-    return createVector(v.x * k, v.y * k)
-  }
-
-  v.copy = function() {
-    return createVector(v.x, v.y)
-  }
-
-  v.mag = function() {
-    return Math.pow(v.x * v.x + v.y * v.y, 0.5)
-  }
-
-  v.dist = function(target) {
-    return target.sub(v).mag()
-  }
-
-  v.set = function(u) {
-    return createVector(u.x, u.y)
-  }
-
-  v.setMag = function(mag) {
-    return v.normalize().mult(mag)
-  }
-
-  v.normalize = function() {
-    return v.mult(1/v.mag())
-  }
-
-  v.limit = function(maxMag) {
-    if (v.mag() > maxMag) {
-      v.setMag(maxMag)
-    }
-  }
-
-  v.limitAxis = function(axis, max) {
-    let limited = v.copy()
-    if (limited[axis] > max) {
-      limited[axis] = max
-    }
-    return limited
-  }
-
-  v.dot = function(u) {
-    return v.x * u.x + v.y * u.y
-  }
-
-  v.projected = function(u) {
-    return v.mult(v.dot(v) / Math.pow(v.mag(), 2))
-  }
-
-  v.toAngle = function(a) {
-    let mag = v.mag()
-    return createVector(Math.cos(a), Math.sin(a)).mult(mag)
-  }
-
-  v.hat = function() {
-    return createVector(-v.y, v.x)
-  }
-
-  return v
+function Vector(x, y) {
+  this.x = x || 0
+  this.y = y || 0
 }
 
-function createVectorAngle(angle, mag) {
-  return createVector(Math.cos(angle), Math.sin(angle)).mult(mag || 1)
+Vector.prototype.add = function(v) {
+  return new Vector(this.x + v.x, this.y + v.y)
+}
+
+Vector.prototype.sub = function(v) {
+  return new Vector(this.x - v.x, this.y - v.y)
+}
+
+Vector.prototype.mult = function(k) {
+  return new Vector(this.x * k, this.y * k)
+}
+
+Vector.prototype.copy = function() {
+  return new Vector(this.x, this.y)
+}
+
+Vector.prototype.mag = function() {
+  return Math.pow(this.x * this.x + this.y * this.y, 0.5)
+}
+
+Vector.prototype.dist = function(target) {
+  return target.sub(this).mag()
+}
+
+Vector.prototype.set = function(v) {
+  return new Vector(v.x, v.y)
+}
+
+Vector.prototype.setMag = function(mag) {
+  return this.normalize().mult(mag)
+}
+
+Vector.prototype.normalize = function() {
+  return this.mult(1/this.mag())
+}
+
+Vector.prototype.limit = function(maxMag) {
+  if(this.mag() > maxMag) {
+    return this.setMag(maxMag)
+  }
+  return this
+}
+
+Vector.prototype.dot = function(v) {
+  return this.x * v.x + this.y * v.y
+}
+
+Vector.prototype.projected = function(v) {
+  return this.mult(this.dot(v) / Math.pow(this.mag(), 2))
+}
+
+Vector.prototype.toAngle = function(a) {
+  return new Vector(Math.cos(a), Math.sin(a)).mult(this.mag())
+}
+
+Vector.prototype.hat = function() {
+  return new Vector(-this.y, this.x)
+}
+
+Vector.prototype.equals = function(v) {
+    return this.x === v.x && this.y === v.y
+}
+
+Vector.prototype.lerp = function(target, t) {
+  return new Vector(this.x + t * (target.x - this.x), this.y + t * (target.y - this.y))
 }
