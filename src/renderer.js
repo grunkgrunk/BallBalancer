@@ -4,21 +4,21 @@ const renderer = (function() {
   let width = canvas.width = 800
   let height = canvas.height = 400
 
-  function rectangle(obj) {
+  function rectangle(obj, body, shape) {
     ctx.save()
     ctx.fillStyle = obj.color || "white"
-    ctx.translate(obj.pos.x, obj.pos.y)
-    ctx.rotate(obj.rotation || 0)
-    ctx.fillRect(0, 0, obj.scale.x, obj.scale.y)
+    ctx.translate(body.pos.x, body.pos.y)
+    ctx.rotate(body.rot || 0)
+    ctx.fillRect(0, 0, shape.scale.x, shape.scale.y)
     ctx.restore()
   }
 
-  function circle(obj) {
+  function circle(obj, body, shape) {
     ctx.save()
     ctx.fillStyle = obj.color || "white"
-    ctx.translate(obj.pos.x, obj.pos.y)
+    ctx.translate(body.pos.x, body.pos.y)
     ctx.beginPath()
-    ctx.arc(0, 0, obj.r, 0, 2*Math.PI)
+    ctx.arc(0, 0, shape.r, 0, 2*Math.PI)
     ctx.fill()
     ctx.restore()
   }
@@ -32,11 +32,11 @@ const renderer = (function() {
     objects
     .sort( (o1, o2) => (o1.z || 0) - (o2.z || 0) )
     .forEach(o => {
-      if (o.model == "rectangle") {
-        rectangle(o)
+      if (o.shape.name  == "rectangle") {
+        rectangle(o, o.body, o.shape)
       }
-      if (o.model == "circle") {
-        circle(o)
+      if (o.shape.name == "circle") {
+        circle(o, o.body, o.shape)
       }
     })
   }
